@@ -1,0 +1,48 @@
+diff -aur zlib-1.2.11/CMakeLists.txt ../srcs/zlib-1.2.11/CMakeLists.txt
+--- zlib-1.2.11/CMakeLists.txt	2017-01-15 11:29:40.000000000 -0600
++++ ../srcs/zlib-1.2.11/CMakeLists.txt	2018-02-13 21:23:37.236610200 -0600
+@@ -78,9 +78,6 @@
+   endif()
+ endif()
+ 
+-set(ZLIB_PC ${CMAKE_CURRENT_BINARY_DIR}/zlib.pc)
+-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/zlib.pc.cmakein
+-		${ZLIB_PC} @ONLY)
+ configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/zconf.h.cmakein
+ 		${CMAKE_CURRENT_BINARY_DIR}/zconf.h @ONLY)
+ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
+@@ -199,9 +196,11 @@
+     set_target_properties(zlib PROPERTIES VERSION ${ZLIB_FULL_VERSION})
+ endif()
+ 
++set(PLAT_OUTPUT_NAME zlib) # Make this accessible in configure_file
+ if(UNIX)
+     # On unix-like platforms the library is almost always called libz
+-   set_target_properties(zlib zlibstatic PROPERTIES OUTPUT_NAME z)
++    set(PLAT_OUTPUT_NAME z)
++   set_target_properties(zlib zlibstatic PROPERTIES OUTPUT_NAME ${PLAT_OUTPUT_NAME})
+    if(NOT APPLE)
+      set_target_properties(zlib PROPERTIES LINK_FLAGS "-Wl,--version-script,\"${CMAKE_CURRENT_SOURCE_DIR}/zlib.map\"")
+    endif()
+@@ -209,6 +208,9 @@
+     # Creates zlib1.dll when building shared library version
+     set_target_properties(zlib PROPERTIES SUFFIX "1.dll")
+ endif()
++set(ZLIB_PC ${CMAKE_CURRENT_BINARY_DIR}/zlib.pc)
++configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/zlib.pc.cmakein
++        ${ZLIB_PC} @ONLY)
+ 
+ if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL )
+     install(TARGETS zlib zlibstatic
+Only in zlib-1.2.11/: zconf.h
+Only in ../srcs/zlib-1.2.11/: zconf.h.included
+diff -aur zlib-1.2.11/zlib.pc.cmakein ../srcs/zlib-1.2.11/zlib.pc.cmakein
+--- zlib-1.2.11/zlib.pc.cmakein	2017-01-15 11:29:40.000000000 -0600
++++ ../srcs/zlib-1.2.11/zlib.pc.cmakein	2018-02-13 21:15:39.610459800 -0600
+@@ -9,5 +9,5 @@
+ Version: @VERSION@
+ 
+ Requires:
+-Libs: -L${libdir} -L${sharedlibdir} -lz
++Libs: -L${libdir} -L${sharedlibdir} -l@PLAT_OUTPUT_NAME@
+ Cflags: -I${includedir}

@@ -1,0 +1,119 @@
+--- glib-2.55.1-porc/glib/glib-init.c2017-07-13 18:03:39.000000000 -0500
++++ glib-2.55.1-porc/glib/glib-init.c2018-02-01 00:54:14.339960000 -0600
+@@ -268,18 +268,25 @@ 
+ 
+   glib_inited = TRUE;
+ 
++#if defined (G_OS_WIN32)
++  g_clock_win32_init ();
++#ifdef THREADS_WIN32
++  g_thread_win32_init ();
++#endif
++#endif
+   g_messages_prefixed_init ();
+   g_debug_init ();
+   g_quark_init ();
+ }
+ 
+ #if defined (G_OS_WIN32)
++HMODULE glib_dll;
+ 
++#if defined (DLL_EXPORT)
+ BOOL WINAPI DllMain (HINSTANCE hinstDLL,
+                      DWORD     fdwReason,
+                      LPVOID    lpvReserved);
+ 
+-HMODULE glib_dll;
+ 
+ BOOL WINAPI
+ DllMain (HINSTANCE hinstDLL,
+@@ -290,10 +297,6 @@ 
+     {
+     case DLL_PROCESS_ATTACH:
+       glib_dll = hinstDLL;
+-      g_clock_win32_init ();
+-#ifdef THREADS_WIN32
+-      g_thread_win32_init ();
+-#endif
+       glib_init ();
+       break;
+ 
+@@ -317,6 +320,7 @@ 
+ 
+   return TRUE;
+ }
++#endif
+ 
+ #elif defined (G_HAS_CONSTRUCTORS)
+ 
+--- glib-2.55.1-porc/glib/meson.build2018-01-08 12:31:41.000000000 -0600
++++ glib-2.55.1-porc/glib/meson.build2018-02-01 00:34:18.059883800 -0600
+@@ -227,6 +227,12 @@ 
+   pcre_static_args = ['-DPCRE_STATIC']
+ endif
+ 
++intl_static_args = []
++
++if get_option('default_library') == 'static'
++  intl_static_args += '-DG_INTL_STATIC_COMPILATION'
++endif
++
+ libglib = library('glib-2.0',
+   glib_dtrace_obj, glib_dtrace_hdr,
+   sources : [deprecated_sources, glib_sources],
+@@ -238,7 +244,7 @@ 
+   include_directories : configinc,
+   link_with : [charset_lib, gnulib_lib],
+   dependencies : [pcre, thread_dep, libintl, librt] + libiconv + platform_deps,
+-  c_args : ['-DG_LOG_DOMAIN="GLib"', '-DGLIB_COMPILATION'] + pcre_static_args + glib_hidden_visibility_args
++  c_args : ['-DG_LOG_DOMAIN="GLib"', '-DGLIB_COMPILATION'] + intl_static_args + pcre_static_args + glib_hidden_visibility_args
+ )
+ 
+ libglib_dep = declare_dependency(
+--- glib-2.55.1-porc/gobject/gtype.c2018-01-08 12:31:41.000000000 -0600
++++ glib-2.55.1-porc/gobject/gtype.c2018-02-01 00:43:24.461433500 -0600
+@@ -4451,7 +4451,7 @@ 
+   _g_signal_init ();
+ }
+ 
+-#if defined (G_OS_WIN32)
++#if defined (G_OS_WIN32) && defined (DLL_EXPORT)
+ 
+ BOOL WINAPI DllMain (HINSTANCE hinstDLL,
+                      DWORD     fdwReason,
+--- glib-2.55.1-porc/gobject/meson.build2018-01-08 12:31:41.000000000 -0600
++++ glib-2.55.1-porc/gobject/meson.build2018-02-01 00:35:16.595148100 -0600
+@@ -61,6 +61,12 @@ 
+   gobject_dtrace_hdr = []
+ endif
+ 
++ffi_static_args = []
++
++if get_option('default_library') == 'static'
++  ffi_static_args += '-DFFI_STATIC_BUILD'
++endif
++
+ libgobject = library('gobject-2.0',
+   gobject_dtrace_obj, gobject_dtrace_hdr,
+   sources : gobject_sources,
+@@ -69,7 +75,7 @@ 
+   install : true,
+   include_directories : [configinc],
+   dependencies : [libintl, libffi_dep, libglib_dep],
+-  c_args : ['-DG_LOG_DOMAIN="GLib-GObject"', '-DGOBJECT_COMPILATION'] + glib_hidden_visibility_args)
++  c_args : ['-DG_LOG_DOMAIN="GLib-GObject"', '-DGOBJECT_COMPILATION'] + ffi_static_args + glib_hidden_visibility_args)
+ 
+ libgobject_dep = declare_dependency(link_with : libgobject,
+   include_directories : gobjectinc)
+--- glib-2.55.2/gio/gwin32networkmonitor.c	2018-02-14 22:29:00.929055300 -0600
++++ glib-2.55.2/gio/gwin32networkmonitor_msvc.c	2018-02-14 22:29:23.239590500 -0600
+@@ -21,7 +21,9 @@
+ #include "config.h"
+ 
+ #include <errno.h>
++#ifndef _MSC_VER
+ #include <unistd.h>
++#endif
+ 
+ #include <winsock2.h>
+ #include <ws2tcpip.h>

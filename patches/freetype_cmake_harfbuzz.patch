@@ -1,0 +1,10 @@
+--- freetype-2.9/builds/cmake/FindHarfBuzz.cmake	2018-02-13 22:24:56.767127100 -0600
++++ freetype-2.9/builds/cmake/FindHarfBuzz_fixed.cmake	2018-02-14 20:22:56.346303800 -0600
+@@ -36,6 +36,7 @@
+ 
+ find_path(HARFBUZZ_INCLUDE_DIRS NAMES hb.h
+     HINTS ${PC_HARFBUZZ_INCLUDE_DIRS} ${PC_HARFBUZZ_INCLUDEDIR}
++    PATH_SUFFIXES harfbuzz
+ )
+ 
+ find_library(HARFBUZZ_LIBRARIES NAMES harfbuzz

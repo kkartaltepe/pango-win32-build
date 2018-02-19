@@ -1,0 +1,12 @@
+Only in libpng-1.6.34/: libpng.pc.cmakein
+diff -aur libpng-1.6.34/libpng.pc.in ../dl/libpng-1.6.34/libpng.pc.in
+--- libpng-1.6.34/libpng.pc.in	2017-09-29 03:42:33.000000000 -0500
++++ ../dl/libpng-1.6.34/libpng.pc.in	2018-02-13 22:15:01.993758400 -0600
+@@ -7,6 +7,6 @@
+ Description: Loads and saves PNG files
+ Version: @PNGLIB_VERSION@
+ Requires: zlib
+-Libs: -L${libdir} -lpng@PNGLIB_MAJOR@@PNGLIB_MINOR@
++Libs: -L${libdir} -llibpng@PNGLIB_MAJOR@@PNGLIB_MINOR@_static
+ Libs.private: @LIBS@
+ Cflags: -I${includedir}

@@ -1,0 +1,25 @@
+--- glib-2.55.2/subprojects/libffi_clean/src/meson.build	2018-02-15 21:03:59.590843500 -0600
++++ glib-2.55.2/subprojects/libffi/src/meson.build	2018-02-15 21:00:01.583312200 -0600
+@@ -81,8 +81,13 @@
+   ffi_asm_sources = ffi_asm_objs
+ endif
+ 
+-ffi_lib = library('ffi', ffi_c_sources, ffi_asm_sources,
+-  c_args : '-DTARGET=' + TARGET,
++flags = []
++# if get_option('default_library') == 'static'
++  flags += '-DFFI_STATIC_BUILD'
++# endif
++
++ffi_lib = static_library('ffi', ffi_c_sources, ffi_asm_sources,
++  c_args : ['-DTARGET=' + TARGET] + flags,
+   include_directories : ffiinc,
+   # Taken from the libtool-version file
+   # current - age . age . revision
+@@ -92,4 +97,5 @@
+   install : true)
+ 
+ ffi_dep = declare_dependency(link_with : ffi_lib,
+-  include_directories : ffiinc)
++  include_directories : ffiinc,
++  compile_args: flags)

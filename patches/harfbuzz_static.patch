@@ -1,0 +1,30 @@
+diff -aur harfbuzz-1.7.5/CMakeLists.txt ../dl/harfbuzz-1.7.5/CMakeLists.txt
+--- harfbuzz-1.7.5/CMakeLists.txt	2018-02-13 23:08:59.387462000 -0600
++++ ../dl/harfbuzz-1.7.5/CMakeLists.txt	2018-02-13 23:09:20.745439300 -0600
+@@ -785,6 +785,7 @@
+ 
+ 
+ ## src/ executables
++if (HB_BUILD_UTILS)
+ foreach (prog main test test-would-substitute test-size-params test-buffer-serialize hb-ot-tag)
+   set (prog_name ${prog})
+   if (${prog_name} STREQUAL "test")
+@@ -795,7 +796,7 @@
+   target_link_libraries(${prog_name} harfbuzz ${THIRD_PARTY_LIBS})
+ endforeach ()
+ set_target_properties(hb-ot-tag PROPERTIES COMPILE_FLAGS "-DMAIN")
+-
++endif()
+ 
+ ## Tests
+ if (UNIX OR MINGW)
+Only in harfbuzz-1.7.5/: CMakeLists.txt.orig
+diff -aur ../dl/harfbuzz-1.7.5/test/api/CMakeLists.txt harfbuzz-1.7.5/test/api/CMakeLists.txt
+--- harfbuzz-1.7.5/test/api/CMakeLists.txt	2018-02-18 20:10:29.089614700 -0600
++++ ../dl/harfbuzz-1.7.5/test/api/CMakeLists.txt	2018-01-08 08:25:50.000000000 -0600
+@@ -1,4 +1,4 @@
+-if (HB_HAVE_GLIB)
++if (HB_HAVE_GLIB AND HB_BUILD_UTILS)
+   file (READ "${CMAKE_CURRENT_SOURCE_DIR}/Makefile.am" MAKEFILEAM)
+   extract_make_variable (TEST_PROGS ${MAKEFILEAM})
+ 

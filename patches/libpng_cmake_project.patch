@@ -1,0 +1,57 @@
+diff -aur libpng-1.6.34/CMakeLists.txt ../dl/libpng-1.6.34/CMakeLists.txt
+--- libpng-1.6.34/CMakeLists.txt	2018-02-13 22:04:17.019666000 -0600
++++ ../dl/libpng-1.6.34/CMakeLists.txt	2018-02-13 22:10:46.002811400 -0600
+@@ -31,7 +31,7 @@
+ 
+ set(CMAKE_CONFIGURATION_TYPES "Release;Debug;MinSizeRel;RelWithDebInfo")
+ 
+-project(libpng ASM C)
++project(libpng C ASM)
+ enable_testing()
+ 
+ set(PNGLIB_MAJOR 1)
+@@ -826,7 +826,7 @@
+ # we use the same files like ./configure, so we have to set its vars
+ # Only do this on Windows for Cygwin - the files don't make much sense outside
+ # a UNIX look alike
+-if(NOT WIN32 OR CYGWIN OR MINGW)
++# if(NOT WIN32 OR CYGWIN OR MINGW)
+   set(prefix      ${CMAKE_INSTALL_PREFIX})
+   set(exec_prefix ${CMAKE_INSTALL_PREFIX})
+   set(libdir      ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+@@ -839,7 +839,7 @@
+   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libpng-config.in
+     ${CMAKE_CURRENT_BINARY_DIR}/${PNGLIB_NAME}-config @ONLY)
+   CREATE_SYMLINK(libpng-config FILE ${PNGLIB_NAME}-config)
+-endif(NOT WIN32 OR CYGWIN OR MINGW)
++# endif(NOT WIN32 OR CYGWIN OR MINGW)
+ 
+ # SET UP LINKS
+ if(PNG_SHARED)
+@@ -914,16 +914,16 @@
+   install(FILES libpng.3 libpngpf.3      DESTINATION ${PNG_MAN_DIR}/man3)
+   install(FILES png.5                    DESTINATION ${PNG_MAN_DIR}/man5)
+   # Install pkg-config files
+-  if(NOT CMAKE_HOST_WIN32 OR CYGWIN OR MINGW)
++  # if(NOT CMAKE_HOST_WIN32 OR CYGWIN OR MINGW)
+     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpng.pc
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+-    install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/libpng-config
+-            DESTINATION bin)
+-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PNGLIB_NAME}.pc
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+-    install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${PNGLIB_NAME}-config
+-            DESTINATION bin)
+-  endif(NOT CMAKE_HOST_WIN32 OR CYGWIN OR MINGW)
++            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/pkgconfig)
++    # install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/libpng-config
++    #         DESTINATION bin)
++    # install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PNGLIB_NAME}.pc
++    #         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
++    # install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${PNGLIB_NAME}-config
++    #         DESTINATION bin)
++  # endif(NOT CMAKE_HOST_WIN32 OR CYGWIN OR MINGW)
+ endif()
+ 
+ # On versions of CMake that support it, create an export file CMake
+Only in libpng-1.6.34/: libpng.pc.cmakein
