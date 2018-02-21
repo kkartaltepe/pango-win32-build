@@ -1,5 +1,5 @@
---- glib-2.55.2/subprojects/libffi_clean/src/meson.build	2018-02-15 21:03:59.590843500 -0600
-+++ glib-2.55.2/subprojects/libffi/src/meson.build	2018-02-15 21:00:01.583312200 -0600
+--- glib-2.55.2/subprojects/libffi/src/meson.build	2018-02-15 21:00:01.583312200 -0600
++++ glib-2.55.2-fixed/subprojects/libffi/src/meson.build	2018-02-15 21:03:59.590843500 -0600
 @@ -81,8 +81,13 @@
    ffi_asm_sources = ffi_asm_objs
  endif

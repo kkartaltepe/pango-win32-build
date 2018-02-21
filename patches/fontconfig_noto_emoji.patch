@@ -1,0 +1,38 @@
+--- fontconfig-2.12.6/conf.d/66-noto-color-emoji.conf     1969-12-31 18:00:00.000000000 -0600
++++ fontconfig-2.12.6-fixed/conf.d/66-noto-color-emoji.conf       2018-02-20 00:32:53.314510800 -0600
+@@ -0,0 +1,35 @@
++<?xml version="1.0" ?>
++<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
++<fontconfig>
++  <match target="scan">
++    <test name="family">
++      <string>Noto Color Emoji</string>
++    </test>
++    <edit name="scalable" mode="assign">
++      <bool>true</bool>
++    </edit>
++  </match>
++
++  <!-- Add emoji generic family -->
++  <alias binding="strong">
++    <family>emoji</family>
++    <default><family>Noto Color Emoji</family></default>
++  </alias>
++
++  <!-- Alias requests for the other emoji fonts -->
++  <alias binding="strong">
++    <family>Apple Color Emoji</family>
++    <prefer><family>Noto Color Emoji</family></prefer>
++    <default><family>sans-serif</family></default>
++  </alias>
++  <alias binding="strong">
++    <family>Segoe UI Emoji</family>
++    <prefer><family>Noto Color Emoji</family></prefer>
++    <default><family>sans-serif</family></default>
++  </alias>
++  <alias binding="strong">
++    <family>EmojiOne Color</family>
++    <prefer><family>Noto Color Emoji</family></prefer>
++    <default><family>sans-serif</family></default>
++  </alias>
++</fontconfig>

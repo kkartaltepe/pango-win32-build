@@ -1,0 +1,28 @@
+--- glib-2.55.2/subprojects/proxy-libintl/meson.build	2018-02-15 21:04:36.659999200 -0600
++++ glib-2.55.2-fixed/subprojects/proxy-libintl/meson.build	2018-02-15 20:59:54.968462300 -0600
+@@ -13,15 +13,16 @@
+   install : true)
+ 
+ intl_sta = static_library ('intl',
+-  objects: intl_shr.extract_all_objects(),
+-  c_args: ['-DSTUB_ONLY'],
++  'libintl.c',
++  c_args: ['-DSTUB_ONLY', '-DG_INTL_STATIC_COMPILATION'],
+   install : true)
+ 
+-if get_option('default_library') == 'static'
+-  intl_lib = intl_sta
+-else
+-  intl_lib = intl_shr
+-endif
++# if get_option('default_library') == 'static'
++#   intl_lib = intl_sta
++# else
++#   intl_lib = intl_shr
++# endif
+ 
+-intl_dep = declare_dependency(link_with : intl_lib,
+-  include_directories : include_directories('.'))
++intl_dep = declare_dependency(link_with : intl_sta,
++  include_directories : include_directories('.'),
++  compile_args: ['-DG_INTL_STATIC_COMPILATION'])

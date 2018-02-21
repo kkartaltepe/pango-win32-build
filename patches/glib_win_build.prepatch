@@ -1,5 +1,5 @@
---- glib-2.55.1-porc/glib/glib-init.c2017-07-13 18:03:39.000000000 -0500
-+++ glib-2.55.1-porc/glib/glib-init.c2018-02-01 00:54:14.339960000 -0600
+--- glib-2.55.2/glib/glib-init.c	2017-07-13 18:03:39.000000000 -0500
++++ glib-2.55.2-fixed/glib/glib-init.c	2018-02-01 00:54:14.339960000 -0600
 @@ -268,18 +268,25 @@ 
  
    glib_inited = TRUE;
@@ -46,8 +46,8 @@
  
  #elif defined (G_HAS_CONSTRUCTORS)
  
---- glib-2.55.1-porc/glib/meson.build2018-01-08 12:31:41.000000000 -0600
-+++ glib-2.55.1-porc/glib/meson.build2018-02-01 00:34:18.059883800 -0600
+--- glib-2.55.2/glib/meson.build	2018-01-08 12:31:41.000000000 -0600
++++ glib-2.55.2-fixed/glib/meson.build	2018-02-01 00:34:18.059883800 -0600
 @@ -227,6 +227,12 @@ 
    pcre_static_args = ['-DPCRE_STATIC']
  endif
@@ -70,8 +70,8 @@
  )
  
  libglib_dep = declare_dependency(
---- glib-2.55.1-porc/gobject/gtype.c2018-01-08 12:31:41.000000000 -0600
-+++ glib-2.55.1-porc/gobject/gtype.c2018-02-01 00:43:24.461433500 -0600
+--- glib-2.55.2/gobject/gtype.c	2018-01-08 12:31:41.000000000 -0600
++++ glib-2.55.2-fixed/gobject/gtype.c	2018-02-01 00:43:24.461433500 -0600
 @@ -4451,7 +4451,7 @@ 
    _g_signal_init ();
  }
@@ -81,8 +81,8 @@
  
  BOOL WINAPI DllMain (HINSTANCE hinstDLL,
                       DWORD     fdwReason,
---- glib-2.55.1-porc/gobject/meson.build2018-01-08 12:31:41.000000000 -0600
-+++ glib-2.55.1-porc/gobject/meson.build2018-02-01 00:35:16.595148100 -0600
+--- glib-2.55.2/gobject/meson.build	2018-01-08 12:31:41.000000000 -0600
++++ glib-2.55.2-fixed/gobject/meson.build	2018-02-01 00:35:16.595148100 -0600
 @@ -61,6 +61,12 @@ 
    gobject_dtrace_hdr = []
  endif
@@ -106,7 +106,7 @@
  libgobject_dep = declare_dependency(link_with : libgobject,
    include_directories : gobjectinc)
 --- glib-2.55.2/gio/gwin32networkmonitor.c	2018-02-14 22:29:00.929055300 -0600
-+++ glib-2.55.2/gio/gwin32networkmonitor_msvc.c	2018-02-14 22:29:23.239590500 -0600
++++ glib-2.55.2-fixed/gio/gwin32networkmonitor_msvc.c	2018-02-14 22:29:23.239590500 -0600
 @@ -21,7 +21,9 @@
  #include "config.h"
  
