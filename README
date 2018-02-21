@@ -2,18 +2,19 @@ Requirements:
 This terrifying build setup requires a few things,
 1) CMake 3.0 for windows (Only tested with version 3.7)
 2) Meson and Ninja for windows
-3) A working cygwin environment with some normal unix tools (bash, wget, tar, git, patch, rsync)
-4) pkg-config for windows or cygwin(tested and written for cygwin pkg-config, blame glib)
-5) VS Build tools, or a full VS environment
+3) Python2 (I think cygwin python is good enough)
+4) A working cygwin environment with some normal unix tools (bash, wget, tar, git, patch, rsync)
+5) pkg-config for windows or cygwin(tested and written for cygwin pkg-config, blame glib)
+6) VS Build tools, or a full VS environment
 
 
 Environment Setup:
-1) Add CMake, Meson, and Ninja to your PATH (windows), and pkg-config if not using cygwin pkg-config
-1) Either hardwire cygwin envvars with those of the 'VS2015 x64 Native Tools Command Prompt',
+1) Add Python, CMake, Meson, and Ninja to your PATH (windows), and pkg-config if not using cygwin pkg-config
+2) Either hardwire cygwin envvars with those of the 'VS2015 x64 Native Tools Command Prompt',
 	or launch a cygwin terminal from within such a prompt (ensure cygwin is set up to inherit
 	windows environment variable, this is untested).
-2) cd to the pango-win32-build directory
-3) run prepare.sh
-4) Assuming i did everything correctly, you are done and all the required pango artifacts are
+3) cd to the pango-win32-build directory
+4) run prepare.sh
+5) Assuming i did everything correctly, you are done and all the required pango artifacts are
 	stored in ./install
-5) As things break horrifically let me know so we can work through any potentional issues. 
+6) As things break horrifically let me know so we can work through any potentional issues. 
