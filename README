@@ -2,13 +2,13 @@ Requirements:
 This terrifying build setup requires a few things,
 1) CMake 3.0 for windows (Only tested with version 3.7)
 2) Meson and Ninja for windows
-3) A working cygwin environment with some normal unix tools (bash, wget, tar, git, patch)
+3) A working cygwin environment with some normal unix tools (bash, wget, tar, git, patch, rsync)
 4) pkg-config for windows or cygwin(tested and written for cygwin pkg-config, blame glib)
 5) VS Build tools, or a full VS environment
 
 
 Environment Setup:
-1) Add CMake, Meson, and Ninja to your PATH (windows)
+1) Add CMake, Meson, and Ninja to your PATH (windows), and pkg-config if not using cygwin pkg-config
 1) Either hardwire cygwin envvars with those of the 'VS2015 x64 Native Tools Command Prompt',
 	or launch a cygwin terminal from within such a prompt (ensure cygwin is set up to inherit
 	windows environment variable, this is untested).
