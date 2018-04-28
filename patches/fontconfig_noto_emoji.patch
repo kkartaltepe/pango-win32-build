@@ -1,5 +1,5 @@
---- fontconfig-2.12.6/conf.d/66-noto-color-emoji.conf     1969-12-31 18:00:00.000000000 -0600
-+++ fontconfig-2.12.6-fixed/conf.d/66-noto-color-emoji.conf       2018-02-20 00:32:53.314510800 -0600
+--- fontconfig-2.13.0/conf.d/66-noto-color-emoji.conf     1969-12-31 18:00:00.000000000 -0600
++++ fontconfig-2.13.0-fixed/conf.d/66-noto-color-emoji.conf       2018-02-20 00:32:53.314510800 -0600
 @@ -0,0 +1,35 @@
 +<?xml version="1.0" ?>
 +<!DOCTYPE fontconfig SYSTEM "fonts.dtd">

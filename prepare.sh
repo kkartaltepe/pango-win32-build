@@ -35,13 +35,14 @@ patch -p0 < ../patches/glib*.prepatch
 export PKG_CONFIG_LIBDIR='/' # stop it from using cygwin pkg-config
 #export PKG_CONFIG_LIBDIR="$(cygpath --mixed `pwd`/install/share/pkgconfig)" # Just let them build their internal zlib
 cd glib-*/
+# Current requires ucrtbased.dll in system path... because meson.
 meson ../../build/glib/ --prefix="`cygpath --mixed ../../install/`" --buildtype=debugoptimized
 cd ../
 cat ../patches/glib*.postpatch | patch -p0 # apply all patches
 cd ../build/glib
 ninja install # required before harfbuzz for pango
 cd ../../
-export PKG_CONFIG_LIBDIR="$(cygpath --unix `pwd`/install/lib/pkgconfig)" # needed for glib (TODO: PUT ME IN THE RIGHT PLACE)
+export PKG_CONFIG_LIBDIR="$(cygpath --unix `pwd`/install/lib/pkgconfig)" # needed for glib
 
 # apply general patches
 cd srcs
@@ -75,6 +76,7 @@ cmake ../../srcs/harfbuzz-*/ \
 ninja install
 
 #freetype with hb
+rm -rf ../freetype/*
 cd ../freetype
 cmake ../../srcs/freetype-*/ \
     -DWITH_PNG=ON -DWITH_HARFBUZZ=ON \
